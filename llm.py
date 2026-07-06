@@ -12,6 +12,7 @@ def ask_llm(prompt):
         headers={"x-goog-api-key": api_key, "Content-Type": "application/json"},
         json={"contents": [{"parts": [{"text": prompt}]}]}
     )
+    # print(response.json())
     data = response.json()
     return data["candidates"][0]["content"]["parts"][0]["text"]
 

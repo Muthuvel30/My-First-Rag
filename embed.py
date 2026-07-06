@@ -11,7 +11,7 @@ def get_embeed(text):
         url,
         headers={"x-goog-api-key": api_key, "Content-Type": "application/json"},
         json={
-            "model": "models/text-embedding-004",
+            "model": "models/gemini-embedding-001",
             "content": {"parts": [{"text": text}]}
         }
     )

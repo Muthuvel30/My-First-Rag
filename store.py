@@ -1,41 +1,33 @@
 import chromadb
 from embed import get_embeed
+from load import load_pdf,chunk_text
 from llm import ask_llm
 
-client=chromadb.Client()
-collection=client.create_collection("docs")
-
-chunks=[
-        "Muthuvel was born on March 5th, 2002.",
-    "The capital of France is Paris.",
-    "Python is a popular programming language."
-]
-
-for i,chunk in enumerate(chunks):
-    embedding=get_embeed(chunk)
-    collection.add(
+content=load_pdf("Muthuvel Resume.pdf")
+chunks=chunk_text(content)
+client=chromadb.PersistentClient(path="Chroma_db")
+collection=client.get_or_create_collection("docs")
+if collection.count()==0:
+    for i,chunk in enumerate(chunks):
+        embedding=get_embeed(chunk)
+        collection.add(
         ids=[str(i)],
         embeddings=[embedding],
         documents=[chunk]
     )
-print("Stored",collection.count(),"Chunks")
-question="When was Muthuvel born?"
-q_embedding=get_embeed(question)
-# print(q_embedding)
+question = "what is my education  level"
+q_embedding = get_embeed(question)
 
-results=collection.query(
-    query_embeddings=[q_embedding],
-    n_results=1
-)
-# print(type(results))
-print("best Match:",results["documents"])
-retrieved_chunk = results["documents"][0][0]
+results = collection.query(query_embeddings=[q_embedding], n_results=2)
+retrieved = results["documents"][0]
+context = "\n".join(retrieved)
 
-# build a prompt: give the LLM the context + the question
-prompt = f"""Answer the question using the context below.
+
+prompt = f"""Answer the question using ONLY the context below.
+answer concisely in your own words-summarize and interpret
 If the answer isn't in the context, say you don't know.
 
-Context: {retrieved_chunk}
+Context: {context}
 
 Question: {question}"""
 

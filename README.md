@@ -4,7 +4,7 @@ _A hands-on build to understand how retrieval-augmented generation actually work
 
 This is my starting point for actually understanding RAG — not just using it, but seeing what happens inside.
 
-Building it taught me a lot: chunking, embeddings, vector databases, and how similarity search actually works. It's also where I learned Docker properly — why you'd use it, and how to take a project from writing a Dockerfile, to building an image, to running a container. Along the way I got into APIs and, importantly, how to keep an API key secure instead of hardcoding it.
+Building it taught me a lot: chunking, embeddings, vector databases, and how similarity search actually works. It's also where I learned Docker properly — why you'd use it, and how to take a project from writing a Dockerfile, to building an image, to running a container.
 
 **Live demo:** https://my-first-rag-9uss.onrender.com/docs
 
